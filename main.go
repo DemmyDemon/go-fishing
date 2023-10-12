@@ -122,10 +122,10 @@ func main() {
 	}
 	game.time = time.Now()
 
-	game.backgroundOptions.ColorScale.ScaleAlpha(0.75)
+	game.backgroundOptions.ColorScale.ScaleAlpha(0.5)
 	game.backgroundOptions.GeoM.Translate(-float64(game.background.TileSize)/2, 0)
 	game.foregroundOptions.GeoM.Translate(-float64(game.foreground.TileSize)/2, 0)
-	game.cloudsOptions.ColorScale.ScaleAlpha(0.5)
+	game.cloudsOptions.ColorScale.ScaleAlpha(0.75)
 
 	err := game.foreground.Load(img)
 	if err != nil {
