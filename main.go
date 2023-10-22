@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	screenWidth  = 1440
+	screenWidth  = 1600
 	screenHeight = 900
 )
 
@@ -58,13 +58,16 @@ func (g *Game) Update() error {
 			g.clouds.Clouds[0].Drift -= 10
 		}
 	*/
-	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
+	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) || inpututil.IsKeyJustPressed(ebiten.KeyQ) {
 		os.Exit(0)
 	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyF5) {
 		g.background.Seed = time.Now().Unix()
 		g.backgroundImage = nil
 		g.foregroundImage = nil
+	}
+	if inpututil.IsKeyJustPressed(ebiten.KeyF) {
+		ebiten.SetFullscreen(!ebiten.IsFullscreen())
 	}
 	return nil
 }
