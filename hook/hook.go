@@ -58,7 +58,7 @@ func (h *Hook) Draw(screen *ebiten.Image, x, y float32) {
 	}
 
 	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Scale(0.5, 0.5)
+	op.GeoM.Scale(h.Scale, h.Scale)
 	op.Filter = ebiten.FilterNearest
 	op.GeoM.Translate(float64(x), float64(y))
 
