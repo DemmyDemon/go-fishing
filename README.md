@@ -10,7 +10,7 @@ Yes, this *looks* different from `paradise-fishing`. This is because I could not
 
 [Kenney to the rescue!](https://kenney.nl/assets/fish-pack)
 
-Hopefully, I will manage to retail the *feel* of `paradise-fishing` with the new graphics.
+Hopefully, I will manage to retain the *feel* of `paradise-fishing` with the new graphics.
 
 ## Not ready
 
