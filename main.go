@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/DemmyDemon/go-fishing/clouds"
+	"github.com/DemmyDemon/go-fishing/hook"
 	"github.com/DemmyDemon/go-fishing/terrain"
 	"github.com/DemmyDemon/go-fishing/water"
 	"github.com/hajimehoshi/ebiten/v2"
@@ -42,6 +43,8 @@ type Game struct {
 	clouds        clouds.Clouds
 	cloudsImage   *ebiten.Image
 	cloudsOptions *ebiten.DrawImageOptions
+
+	hook hook.Hook
 }
 
 func (g *Game) Update() error {
@@ -99,6 +102,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	}
 	screen.DrawImage(g.foregroundImage, g.foregroundOptions)
 
+	g.hook.Draw(screen, 500, 200)
+
 	g.water.Draw(screen, g.counter+60)
 }
 
@@ -122,6 +127,8 @@ func main() {
 		water:         water.New(screenHeight-300, screenWidth, screenHeight),
 		clouds:        clouds.Clouds{Count: 5},
 		cloudsOptions: &ebiten.DrawImageOptions{},
+
+		hook: hook.New(),
 	}
 	game.time = time.Now()
 
@@ -142,6 +149,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	err = game.hook.Load(img, "img/hook/hook.png")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
 	}

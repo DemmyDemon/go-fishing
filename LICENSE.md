@@ -1,7 +1,7 @@
 Some files are Creative Commons CC0
 ===================================
 
-All the graphics in the img/ folder are by Kenney
+Most of the graphics in the img/ folder are by Kenney
 https://kenney.nl/
 Thank you for publishing this under the CC0 license, Kenney.
 It lets non-artists like me express ourselves in code without the art looking
@@ -10,6 +10,8 @@ like ... well, "developer art" is a term for a reason.
 Most of it is from [Fish Pack](https://kenney.nl/assets/fish-pack)
 
 https://creativecommons.org/share-your-work/public-domain/cc0/
+
+The hook graphic was made by [Monica Björk](https://github.com/monbjo), and is also licensed under CC0.
 
 The rest is under The MIT License
 =================================
