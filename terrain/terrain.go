@@ -1,11 +1,10 @@
 package terrain
 
 import (
-	"bytes"
-	"embed"
 	"fmt"
 	"image"
 	_ "image/png"
+	"io/fs"
 	"math/rand"
 	"time"
 
@@ -25,15 +24,16 @@ type Terrain struct {
 	DecorationImgs            []*ebiten.Image
 }
 
-func (t *Terrain) load(source embed.FS, paths []string) ([]*ebiten.Image, error) {
+func (t *Terrain) load(source fs.FS, paths []string) ([]*ebiten.Image, error) {
 	imgs := make([]*ebiten.Image, len(paths))
 	for i, path := range paths {
 		i := i
-		imgData, err := source.ReadFile(path)
+		imgData, err := source.Open(path)
 		if err != nil {
 			return imgs, fmt.Errorf("reading %s: %w", path, err)
 		}
-		img, _, err := image.Decode(bytes.NewReader(imgData))
+		img, _, err := image.Decode(imgData)
+		imgData.Close()
 		if err != nil {
 			return imgs, fmt.Errorf("decoding %s: %w", path, err)
 		}
@@ -42,7 +42,7 @@ func (t *Terrain) load(source embed.FS, paths []string) ([]*ebiten.Image, error)
 	return imgs, nil
 }
 
-func (t *Terrain) Load(source embed.FS) error {
+func (t *Terrain) Load(source fs.FS) error {
 
 	imgs, err := t.load(source, t.TilePaths)
 	if err != nil {

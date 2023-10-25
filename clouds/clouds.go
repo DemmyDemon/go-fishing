@@ -1,11 +1,10 @@
 package clouds
 
 import (
-	"bytes"
-	"embed"
 	"fmt"
 	"image"
 	_ "image/png"
+	"io/fs"
 	"math/rand"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -23,27 +22,35 @@ type Clouds struct {
 	Clouds      []Cloud
 }
 
-func (c *Clouds) Load(source embed.FS, path string) error {
+func (c *Clouds) Load(source fs.FS, path string) error {
 	c.CloudImages = make([]*ebiten.Image, 0)
-	dir, err := source.ReadDir(path)
-	if err != nil {
-		return fmt.Errorf("loading clouds: %w", err)
-	}
-	for _, entry := range dir {
+	err := fs.WalkDir(source, path, func(path string, entry fs.DirEntry, fileError error) error {
 		if entry.IsDir() {
-			continue
+			return nil
 		}
+		if fileError != nil {
+			return fileError
+		}
+
 		name := entry.Name()
-		imgData, err := source.ReadFile(path + "/" + name)
-		if err != nil {
-			return fmt.Errorf("reading %s/%s: %w", path, name, err)
+		imgData, fileError := source.Open(path)
+		if fileError != nil {
+			return fmt.Errorf("reading %s/%s: %w", path, name, fileError)
 		}
-		img, _, err := image.Decode(bytes.NewReader(imgData))
-		if err != nil {
-			return fmt.Errorf("decoding %s/%s: %w", path, name, err)
+		img, _, fileError := image.Decode(imgData)
+		if fileError != nil {
+			return fmt.Errorf("decoding %s/%s: %w", path, name, fileError)
 		}
 		c.CloudImages = append(c.CloudImages, ebiten.NewImageFromImage(img))
+		return nil
+	})
+	if err != nil {
+		return err
 	}
+	return nil
+}
+
+func (c *Clouds) RandomizePositions() {
 	c.Clouds = make([]Cloud, c.Count)
 	for i := 0; i < c.Count; i++ {
 		cloud := Cloud{
@@ -53,7 +60,6 @@ func (c *Clouds) Load(source embed.FS, path string) error {
 		}
 		c.Clouds[i] = cloud
 	}
-	return nil
 }
 
 func (c *Cloud) Draw(screen *ebiten.Image, cloudImage *ebiten.Image) {
