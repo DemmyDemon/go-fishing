@@ -55,8 +55,8 @@ func (c *Clouds) RandomizePositions() {
 	for i := 0; i < c.Count; i++ {
 		cloud := Cloud{
 			ImageIndex: rand.Intn(len(c.CloudImages)),
-			Position:   rand.Float64() * 1000,
-			Height:     rand.Float64() * 100,
+			Position:   (rand.Float64() * 1600) - 200,
+			Height:     rand.Float64() * 150,
 		}
 		c.Clouds[i] = cloud
 	}

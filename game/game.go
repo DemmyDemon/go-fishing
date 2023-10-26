@@ -53,7 +53,7 @@ func New(data fs.FS) (*Game, error) {
 		BackgroundOptions: &ebiten.DrawImageOptions{},
 
 		Water:         water.New(ScreenHeight-300, ScreenWidth, ScreenHeight),
-		Clouds:        clouds.Clouds{Count: 5},
+		Clouds:        clouds.Clouds{Count: 8},
 		CloudsOptions: &ebiten.DrawImageOptions{},
 
 		Hook: hook.New(),
